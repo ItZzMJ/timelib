@@ -7,6 +7,100 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+
+void input_date(int *day, int *month, int *year)
+{
+    int tagePM[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+
+    //Jahr einlesen
+    printf("Geben Sie das Jahr ein: ");
+    do {
+        scanf("%d", &*year);
+
+        //Überprüfung der Eingabe
+        if(*year < 1582 || *year > 2400) {
+            printf("Jahr muss gr\x94\xe1er als 0 sein! Versuchen Sie es nochmal: ");
+        }
+
+    } while (*year < 0);
+
+    //Überprüfe ob year ein Schaltjahr ist
+    if(is_leapyear(*year)) {
+        tagePM[1]++;
+    }
+
+    //Monat einlesen
+    printf("Geben Sie den Monat ein: ");
+    do {
+        scanf("%d", &*month);
+
+        //Überprüfung der Eingabe
+        if(*month < 1 || *month > 12 ) {
+            printf("Monat muss zwischen 1 und 12 gew\x84hlt werden! Versuchen Sie es nochmal: ");
+        }
+    } while(*month < 1 || *month > 12 );
+
+    //Tag einlesen
+    printf("Geben Sie den Tag ein: ");
+    do {
+        scanf("%d", &*day);
+
+        //Überprüfung der Eingabe
+        if(*day < 1 || *day > tagePM[*month-1]) {
+            printf("Kein g\x81ltiger Tag! Versuchen Sie es nochmal: ");
+        }
+    } while(*day < 1 || *day > tagePM[*month-1]);
+}
+
+
+
+/**
+ * Die Funktion bestimmt für einen gegebenen Monat eines gegebenen Jahres, wie viele Tage der Monat hat. Der
+ * Wert des Monats muss zwischen 1 und 12 liegen. Schaltjahre werden berücksichtigt.
+ *
+ * @param month
+ * @param year
+ * @return Anzahl der Tage des Monats
+ */
+int get_days_for_month(int month, int year)
+{
+    int tagePM[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+
+    //Ungültige Eingabe bei year < 0 oder month > 12 oder < 1
+    if(year < 0 || month > 12 || month < 1) {
+        return -1;
+    }
+
+    if(is_leapyear(year)) {
+        tagePM[1]++;
+    }
+
+    return tagePM[month-1];
+
+}
+
+/**
+ * Die Funktion überprüft, ob ein eingegebenes Datum gültig ist. Daten vor dem 1.1.1582 sind ungültig, genauso
+ * wie alle Daten nach dem 31.12.2400.
+ *
+ * @return
+ */
+int exists_date(int day, int month, int year)
+{
+    int tagePM[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+
+    if(year < 1582 || year > 2400) return 0; //check year
+    if(month > 12  || month < 1) return 0; //check month
+    if(is_leapyear(year)) tagePM[1]++; //check for leapyear
+    if(day < 1 || day > tagePM[month-1]) return 0; //check for day
+
+    //Wenn an diesem punkt angekommen existiert das Datum also return 1
+    return 1;
+}
+
+
+
 /**
  * Zählt den aktuellen Tag des Jahres und gibt diesen zurück
  * Test
@@ -23,7 +117,7 @@ int day_of_the_year(int day, int month, int year)
     jahr = year;
 
     //Überprüfe ob das Jahr ein Schaltjahr ist
-    if(isSchaltjahr(jahr)) {
+    if(is_leapyear(jahr)) {
        tagePM[1]++; //Februar hat in einem Schaltjahr 29 Tage
     }
 
@@ -42,6 +136,8 @@ int day_of_the_year(int day, int month, int year)
     return erg;
 
 }
+
+
 
 /**
  * Die Funktion bekommt zwei Ganzzahlen übergeben, vergleicht die beiden Zahlen und gibt die kleinere Zahl zurück.
@@ -93,6 +189,10 @@ void ausgabe(int x, int y, int erg) {
     printf("\t| %d \n", erg);
 }
 
+/**
+ * Testfunktion für Min-, Max-, und Vorzeichen-funktion
+ * @return
+ */
 int testfunktion()
 {
     printf("******** Funktionen-Test ********\n");
@@ -156,12 +256,16 @@ int testfunktion()
 }
 
 
-/*
- * Überprüft ob das gegebene Jahr ein Schaltjahr ist
+/**
+ * Die Funktion überprüft, ob ein gegebenes Jahr nach den Regeln des gregorianischen Kalender ein Schaltjahr ist
  * falls ja wird 1,
  * falls nicht wird 0 zurückgegeben
+ * Bei Jahreszahlen vor dem Jahr 1582 wird ein Fehler zurückgegeben.
  */
-int isSchaltjahr(int jahr) {
+int is_leapyear(int jahr) {
+
+    if(jahr < 1582) return -1; //Wenn Jahr kleiner ist als 0 falsche eingabe
+
     //Wenn das Jahr durch 4 Teilbar ist, ist es ein Schaltjahr
     if(jahr % 4 == 0) {
 
@@ -184,6 +288,22 @@ int isSchaltjahr(int jahr) {
 
 int main()
 {
-    printf("Tag des Jahres: %i\n", day_of_the_year(31, 12, 2018));
+    int day,month,year, daysOfMonth;
+
+    printf("**** Test der neuen Funktionen ****\n");
+
+    input_date(&day, &month, &year);
+
+    if(exists_date(day,month,year)) {
+        printf("Das Datum %d.%d.%d existiert.\n", day, month, year);
+    } else  {
+        printf("Das Datum %d.%d.%d existiert nicht.\n", day, month, year);
+    }
+
+    daysOfMonth = get_days_for_month(month, year);
+    printf("Der %d. Monat hat %d Tage.\n", month, daysOfMonth);
+
+
+
     return 0;
 }
