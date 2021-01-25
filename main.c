@@ -9,6 +9,7 @@
 
 /**
  * Zählt den aktuellen Tag des Jahres und gibt diesen zurück
+ * Test
  *
  **/
 int day_of_the_year(int day, int month, int year)
