@@ -304,6 +304,5 @@ int main()
     printf("Der %d. Monat hat %d Tage.\n", month, daysOfMonth);
 
 
-
     return 0;
 }
