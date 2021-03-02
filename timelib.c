@@ -9,48 +9,50 @@
 #include <stdlib.h>
 
 
-void input_date(int *day, int *month, int *year)
+void input_date(Date *date)
 {
     int tagePM[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
 
     //Jahr einlesen
     printf("Geben Sie das Jahr ein: ");
     do {
-        scanf("%d", &*year);
+        scanf("%d", &((*date)).year);
 
         //Überprüfung der Eingabe
-        if(*year < 1582 || *year > 2400) {
+        if((*date).year < 1582 || (*date).year > 2400) {
             printf("Jahr muss gr\x94\xe1er als 0 sein! Versuchen Sie es nochmal: ");
         }
 
-    } while (*year < 0);
+    } while ((*date).year < 0);
 
     //Überprüfe ob year ein Schaltjahr ist
-    if(is_leapyear(*year)) {
+    if(is_leapyear((*date).year)) {
         tagePM[1]++;
     }
 
     //Monat einlesen
     printf("Geben Sie den Monat ein: ");
     do {
-        scanf("%d", &*month);
+        scanf("%d", &(*date).month);
 
         //Überprüfung der Eingabe
-        if(*month < 1 || *month > 12 ) {
+        if((*date).month < 1 || (*date).month > 12 ) {
             printf("Monat muss zwischen 1 und 12 gew\x84hlt werden! Versuchen Sie es nochmal: ");
         }
-    } while(*month < 1 || *month > 12 );
+    } while((*date).month < 1 || (*date).month > 12 );
 
     //Tag einlesen
     printf("Geben Sie den Tag ein: ");
     do {
-        scanf("%d", &*day);
+        scanf("%d", &(*date).day);
 
         //Überprüfung der Eingabe
-        if(*day < 1 || *day > tagePM[*month-1]) {
+        if((*date).day < 1 || (*date).day > tagePM[(*date).month-1]) {
             printf("Kein g\x81ltiger Tag! Versuchen Sie es nochmal: ");
         }
-    } while(*day < 1 || *day > tagePM[*month-1]);
+    } while((*date).day < 1 || (*date).day > tagePM[(*date).month-1]);
+
+    printf("\n");
 }
 
 
@@ -84,16 +86,16 @@ int get_days_for_month(int month, int year)
  * Die Funktion überprüft, ob ein eingegebenes Datum gültig ist. Daten vor dem 1.1.1582 sind ungültig, genauso
  * wie alle Daten nach dem 31.12.2400.
  *
- * @return
+ * @return 1 wenn Datum existiert, 0 wenn nicht
  */
-int exists_date(int day, int month, int year)
+int exists_date(Date date)
 {
     int tagePM[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
 
-    if(year < 1582 || year > 2400) return 0; //check year
-    if(month > 12  || month < 1) return 0; //check month
-    if(is_leapyear(year)) tagePM[1]++; //check for leapyear
-    if(day < 1 || day > tagePM[month-1]) return 0; //check for day
+    if(date.year < 1582 || date.year > 2400) return 0; //check year
+    if(date.month > 12  || date.month < 1) return 0; //check month
+    if(is_leapyear(date.year)) tagePM[1]++; //check ob Schaltjahr
+    if(date.day < 1 || date.day > tagePM[date.month-1]) return 0; //check day
 
     //Wenn an diesem punkt angekommen existiert das Datum also return 1
     return 1;
@@ -103,26 +105,26 @@ int exists_date(int day, int month, int year)
 
 /**
  * Zählt den aktuellen Tag des Jahres und gibt diesen zurück
- * Test
+ *
  *
  **/
-int day_of_the_year(int day, int month, int year)
+int day_of_the_year(Date date)
 {
 
     int tagePM[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
     int jahr, monat, tag, i, erg;
 
-    printf("*** Tag des Jahres ***\n");
+    //printf("*** Tag des Jahres ***\n");
 
-    jahr = year;
+    jahr = date.year;
 
     //Überprüfe ob das Jahr ein Schaltjahr ist
     if(is_leapyear(jahr)) {
         tagePM[1]++; //Februar hat in einem Schaltjahr 29 Tage
     }
 
-    monat = month;
-    tag = day;
+    monat = date.month;
+    tag = date.day;
 
 
     //Tage Berechnen
