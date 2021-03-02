@@ -5,7 +5,7 @@
 #ifndef TIMELIB_TIMELIB_H
 #define TIMELIB_TIMELIB_H
 
-//typedef damit man beim initialisieren anstatt "struct date" einfach nur "Date" schreiben kann
+//typedef damit man beim Initialisieren anstatt "struct date" einfach nur "Date" schreiben kann
 typedef struct
 {
     int day;
