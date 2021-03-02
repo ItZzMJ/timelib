@@ -2,6 +2,21 @@
 ### Bibliothek mit verschiedenen Funktionen zur Datums-Eingabe, -Bearbeitung und -Ausgabe.
 ### Außerdem mit Datums-Struktur.
 
+## Datums-Struktur
+Zuerst wird ein leeres Datum erstellt.
+```
+Date date;
+```
+Danach kann entweder mit der Funktion input_date(&date) ein Datum aus der Kommandozeile
+eingelesen werden, oder manuell erzeugt werden.
+```
+Date date;
+date.day = 2;
+date.month = 3;
+date.year = 2021;
+```
+
+
 ## Funktionen:
 
 ### day_of_the_year(Date date):
@@ -50,21 +65,6 @@ Die Funktion überprüft das Vorzeichen des gegebenen Integers. Bei positivem Vo
 bei negativem Vorzeichen -1 und bei 0 wird 0 zurückgegeben.
 
 <br>
-
-## Datums-Struktur
-Zuerst wird ein leeres Datum erstellt.
-```
-Date date;
-```
-Danach kann entweder mit der Funktion input_date(&date) ein Datum aus der Kommandozeile
-eingelesen werden, oder manuell erzeugt werden.
-```
-Date date;
-date.day = 2;
-date.month = 3;
-date.year = 2021;
-```
-
 
 ## Beispielprogram zum Testen der Funktionen:
 
