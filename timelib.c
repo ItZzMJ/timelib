@@ -23,7 +23,7 @@ void input_date(Date *date)
             printf("Jahr muss gr\x94\xe1er als 0 sein! Versuchen Sie es nochmal: ");
         }
 
-    } while ((*date).year < 0);
+    } while ((*date).year > 1582 && (*date).year < 2400);
 
     //Überprüfe ob year ein Schaltjahr ist
     if(is_leapyear((*date).year)) {
@@ -113,6 +113,10 @@ int day_of_the_year(Date date)
 
     int tagePM[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
     int jahr, monat, tag, i, erg;
+
+    if(!exists_date(date)) {
+        return -1;
+    }
 
     //printf("*** Tag des Jahres ***\n");
 
