@@ -16,14 +16,14 @@ void input_date(Date *date)
     //Jahr einlesen
     printf("Geben Sie das Jahr ein: ");
     do {
-        scanf("%d", &((*date)).year);
+        scanf("%d", &(*date).year);
 
         //Überprüfung der Eingabe
         if((*date).year < 1582 || (*date).year > 2400) {
             printf("Jahr muss gr\x94\xe1er als 0 sein! Versuchen Sie es nochmal: ");
         }
+    } while ((*date).year < 1582 || (*date).year > 2400);
 
-    } while ((*date).year > 1582 && (*date).year < 2400);
 
     //Überprüfe ob year ein Schaltjahr ist
     if(is_leapyear((*date).year)) {
@@ -74,8 +74,9 @@ int get_days_for_month(int month, int year)
         return -1;
     }
 
+    //Überprüfe ob das Jahr ein Schaltjahr ist
     if(is_leapyear(year)) {
-        tagePM[1]++;
+        tagePM[1]++; // Wenn ja hat der Februar 29 Tage
     }
 
     return tagePM[month-1];
@@ -110,30 +111,24 @@ int exists_date(Date date)
  **/
 int day_of_the_year(Date date)
 {
-
     int tagePM[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
-    int jahr, monat, tag, i, erg;
+    int i, erg;
 
+
+    //Überprüfe ob das gegebene Datum existiert
     if(!exists_date(date)) {
         return -1;
     }
 
-    //printf("*** Tag des Jahres ***\n");
-
-    jahr = date.year;
 
     //Überprüfe ob das Jahr ein Schaltjahr ist
-    if(is_leapyear(jahr)) {
+    if(is_leapyear(date.year)) {
         tagePM[1]++; //Februar hat in einem Schaltjahr 29 Tage
     }
 
-    monat = date.month;
-    tag = date.day;
-
-
     //Tage Berechnen
-    erg = tag;
-    for(i = 0; i < monat - 1; i++) {
+    erg = date.day;
+    for(i = 0; i < date.month - 1; i++) {
         erg += tagePM[i];
     }
 
@@ -154,7 +149,7 @@ int day_of_the_year(Date date)
  */
 int min(int a, int b)
 {
-    return a < b ? a : b;
+    return a < b ? a : b; //Wenn b größer als a ist, gib a zurück, sonst b
 }
 
 /**
@@ -166,7 +161,7 @@ int min(int a, int b)
  */
 int max(int a, int b)
 {
-    return a > b ? a : b;
+    return a > b ? a : b; //Wenn a größer als b ist, gib a zurück, sonst b
 }
 
 /**
