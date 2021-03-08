@@ -2,7 +2,11 @@
 ### Bibliothek mit verschiedenen Funktionen zur Datums-Eingabe, -Bearbeitung und -Ausgabe.
 ### Außerdem mit Datums-Struktur.
 
+Autor: Jannik Möbius<br>
+Letzter Commit: 08.03.2021
+
 ## Datums-Struktur
+ 
 Zuerst wird ein leeres Datum erstellt.
 ```
 Date date;
